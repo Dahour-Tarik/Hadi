@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head>
+  <meta charset="UTF-8">
+  <title>File Upload / Download</title>
+  <script src="https://code.jquery.com/jquery-3.5.0.js"></script>
+</head>
+<body>
+
+<div>
+  <h3>Upload Multiple Files</h3>
+  <form id="uploadFiles" name="uploadFiles" method="post" th:action=@{/doc/uploadFiles} encType="multipart/form-data">
+    <input type="file" name="files" id="pth" multiple required />
+    <input type="number" name="idRep" id="idRep" value="2" />
+    <input type="hidden" name="idUser" id="idUser" value="1" />
+    <button type="submit">Submit</button>
+  </form>
+</div>
+<div>
+  <h3>Add Repository</h3>
+  <form id="creeRepo" name="creeRepo" method="post" th:action=@{/folders/creeRepo} encType="multipart/form-data">
+    <input type="text" name="nameRep" id="setRep" multiple required/>
+    <input type="text" name="pathRep" id="setPath" multiple required/>
+    <button type="submit" id="btn">Submit</button>
+  </form>
+</div>
+<div>
+  <h3>List des repertoire </h3>
+  <table>
+    <thead>
+      <tr>
+        <th>Name</th>
+      </tr>
+    </thead>
+      <tbody>
+        <tr th:each="repo:${repos}">
+          <td th:text="${repo.name}" ></td>
+          <td> <a th:href="@{/doc/folders/__${repo.Id}__/1}">show</a></td>
+        </tr>
+     </tbody>
+  </table>
+</div>
+<div>
+  <h3>List of Documents</h3>
+  <table>
+    <thead>
+    <tr>
+      <th>Id</th>
+      <th>Name</th>
+      <th>Path</th>
+      <th>Download Link</th>
+    </tr>
+    </thead>
+    <tbody>
+      <tr th:each="doc:${docs}" id = "at">
+        <td th:text="${doc.idDoc}" />
+        <td th:text="${doc.docName}"/>
+        <td><a th:href="@{/doc/downloadFile/__${doc.idDoc}__}">Download</a></td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<script>
+
+
+		$("form#creeRepo").on("click", "#btn", function(){
+			alert($("#setRep").val());
+		})
+		//$("#pth").attr("th:field","*{" +name+"}");
+		//alert($("#pth").attr("th:field"));
+
+	</script>
+</body>
+</html>
