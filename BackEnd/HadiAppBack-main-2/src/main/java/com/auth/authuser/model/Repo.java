@@ -30,6 +30,9 @@ public class Repo {
     private boolean isFile;
     @Column(name = "filterPath")
     private String filterPath;
+    @Column(name = "parId")
+    private Long parent_id;
+
 
     @OneToMany(mappedBy="repo")
     private List<Doc> docs;
@@ -51,7 +54,7 @@ public class Repo {
 
     }
 
-    public Repo(String name, String path, Date dateModified, Date repDateCreation, Long sizeRepo, boolean hasChild, String filterPath, Repo parents, User user) {
+    public Repo(Long parent_id,String name, String path, Date dateModified, Date repDateCreation, Long sizeRepo, boolean hasChild, String filterPath, Repo parents, User user) {
         this.name = name;
         this.path = path;
         this.dateModified = dateModified;
@@ -62,6 +65,7 @@ public class Repo {
         this.filterPath = filterPath;
         this.parents = parents;
         this.user = user;
+        this.parent_id = parent_id;
     }
 
     @JsonBackReference(value="user-repo")
@@ -181,5 +185,11 @@ public class Repo {
         this.historyList = historyList;
     }
 
+    public Long getParent_id() {
+        return parent_id;
+    }
 
+    public void setParent_id(Long parent_id) {
+        this.parent_id = parent_id;
+    }
 }

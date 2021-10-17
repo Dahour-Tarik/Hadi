@@ -23,12 +23,22 @@ public class RepController {
     @GetMapping("/")
     public ResponseEntity<List<Repo>> getAll(){
         List<Repo> repos = repService.getAll();
+
+        for(int j=0;j<repos.size();j++) {
+            for (int i = 0; i < repos.get(j).getEnfants().size(); i++) {
+                repos.get(j).getEnfants().get(i).setParent_id(repos.get(j).getId());
+            }
+        }
         return new ResponseEntity(repos,HttpStatus.OK);
     }
     @GetMapping("/{idUser}")
     public List<Repo> getFolder(@PathVariable Long idUser){
         List<Repo> repo = repService.getRepos(idUser);
-        
+        for(int j=0;j<repo.size();j++) {
+            for (int i = 0; i < repo.get(j).getEnfants().size(); i++) {
+                repo.get(j).getEnfants().get(i).setParent_id(repo.get(j).getId());
+            }
+        }
         return repo;
     }
     
@@ -70,6 +80,9 @@ public class RepController {
     @PutMapping("/updateName")
     public ResponseEntity<Repo> updateFolderName(@RequestBody Repo repo){
        Repo repTemp = repService.updateNameFolder(repo);
+       for(int i=0;i<repTemp.getEnfants().size();i++){
+           repTemp.getEnfants().get(i).setParent_id(repTemp.getId());
+       }
        return new ResponseEntity<>(repTemp,HttpStatus.OK);
     }
 

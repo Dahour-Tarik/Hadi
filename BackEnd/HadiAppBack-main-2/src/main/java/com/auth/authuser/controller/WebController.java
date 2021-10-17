@@ -87,6 +87,7 @@ public class WebController {
     @PutMapping(value="/updateUser")
     public ResponseEntity<Company> updateUser(@RequestBody Company company) {
         Company userTemp = (Company) myUserDetailsService.updateUser(company);
+        System.out.println(userTemp);
         return new ResponseEntity<>(userTemp, HttpStatus.OK);
     }
 
@@ -109,8 +110,9 @@ public class WebController {
         return new ResponseEntity<>(true, HttpStatus.OK);
     }
 
-   @PutMapping("/updatePasswordUser/{idUser}")
-    public ResponseEntity<String> updatePasswordUser(@RequestBody String password, @PathVariable Long idUser) {
+
+    @PutMapping("/updatePasswordUser/{idUser}")
+    public ResponseEntity<String> updatePasswordUser(@RequestParam String password, @PathVariable Long idUser) {
         myUserDetailsService.updatePasswordUser(new BCryptPasswordEncoder().encode(password), idUser);
         return new ResponseEntity<>("Password updated", HttpStatus.OK);
     }
